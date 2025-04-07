@@ -94,16 +94,11 @@ async function consulta(e) {
       const dataDNI = await consultaDNI.json();
       // const dataOsiptel = await respuestaTel.json();
       
-      console.log(dataDNI);
-      console.log(dataDNI.success);
-      
-      // console.log(dataOsiptel);
-      
-      
       // ========================== dni ============================
       if (dataDNI.success) {
            addComponent("tbDNI", "");
          let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
+         
          addComponent("tbDNI", tblDNI);
       } else {
 
