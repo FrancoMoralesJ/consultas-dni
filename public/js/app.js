@@ -80,7 +80,7 @@ async function consulta(e) {
    }
    try {
 
-      const consultaDNI =await fetch("http://localhost:3000/buscar", {
+      const consultaDNI =await fetch("consultas-dni.vercel.app/buscar", {
          method: 'POST',
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ dni: dni })
@@ -98,7 +98,7 @@ async function consulta(e) {
       if (dataDNI.success) {
            addComponent("tbDNI", "");
          let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
-         
+
          addComponent("tbDNI", tblDNI);
       } else {
 
