@@ -92,6 +92,8 @@ async function consulta(e) {
       // const [respuestaDNI, respuestaTel] = await Promise.all([consultaDNI, consultaTel]);
       
       const dataDNI = await consultaDNI.json();
+      console.log(dataDNI);
+      
       // const dataOsiptel = await respuestaTel.json();
       
       // ========================== dni ============================
