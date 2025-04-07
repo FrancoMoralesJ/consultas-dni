@@ -80,7 +80,7 @@ async function consulta(e) {
    }
    try {
 
-      const consultaDNI =await fetch("consultas-dni.vercel.app/buscar", {
+      const consultaDNI =await fetch("/buscar", {
          method: 'POST',
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ dni: dni })
