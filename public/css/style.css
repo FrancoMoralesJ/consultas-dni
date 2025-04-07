@@ -1,0 +1,24 @@
+.content_dnitxt{
+    position: relative;
+}
+.dnitxt{
+    width: 100%;
+    position: relative;
+}
+.delete{
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    font-size: 25px;
+    cursor: pointer;
+    
+    color: #495057;
+    display: none !important;
+}
+.delete:hover{
+    
+    transform: scale(1.1);
+}
+.tel_content{
+    display: none !important;
+}
