@@ -46,35 +46,67 @@ const cheerio = require("cheerio");
 
 
 
-async function obtenerTokenYCookies() {
-    const url = "https://eldni.com/pe/buscar-datos-por-dni";
+// async function obtenerTokenYCookies() {
+//     const url = "https://eldni.com/pe/buscar-datos-por-dni";
 
-    try {
+//     try {
       
-        const response = await axios.get(url, { 
-            withCredentials: true,
-            headers: { 'User-Agent': 'Mozilla/5.0' }
-        });
+//         const response = await axios.get(url, { 
+//             withCredentials: true,
+//             headers: { 'User-Agent': 'Mozilla/5.0' }
+//         });
 
        
-        const $ = cheerio.load(response.data);  // Aquí cargamos el HTML con cheerio
+//         const $ = cheerio.load(response.data);  // Aquí cargamos el HTML con cheerio
 
 
-        const token = $('input[name="_token"]').val();
-        // Extraer las cookies de los encabezados
-        const cookies = response.headers['set-cookie'];
+//         const token = $('input[name="_token"]').val();
+//         // Extraer las cookies de los encabezados
+//         const cookies = response.headers['set-cookie'];
 
       
-        console.log("Token:", token);
-        console.log("Cookies:", cookies);
+//         console.log("Token:", token);
+//         console.log("Cookies:", cookies);
 
-        return { token, cookies };
-    } catch (error) {
-        console.error("Error al obtener token y cookies:", error.message);
-        return null;
-    }
-}
+//         return { token, cookies };
+//     } catch (error) {
+//         console.error("Error al obtener token y cookies:", error.message);
+//         return null;
+//     }
+// }
 
+const instance = axios.create({
+    withCredentials: true, 
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+  });
+  
+  async function obtenerTokenYCookies() {
+      const url = "https://eldni.com/pe/buscar-datos-por-dni";
+  
+      try {
+          const response = await instance.get(url);
+  
+          const $ = cheerio.load(response.data);
+  
+          const token = $('input[name="_token"]').val();
+  
+          if (!token) {
+              throw new Error("No se pudo obtener el token.");
+          }
+  
+          const cookies = response.headers['set-cookie'];
+  
+          // Verificar valores
+          console.log("Token:", token);
+          console.log("Cookies:", cookies);
+  
+          return { token, cookies };
+      } catch (error) {
+          console.error("Error al obtener token y cookies:", error.message);
+          return null;
+      }
+  }
+  
 
 
 
