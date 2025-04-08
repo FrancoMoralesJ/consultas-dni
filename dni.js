@@ -20,18 +20,53 @@ const cheerio = require("cheerio");
 //     }
 // }
 
+// async function obtenerTokenYCookies() {
+    
+//     const url = "https://eldni.com/pe/buscar-datos-por-dni";
+
+//     try {
+//         const response = await axios.get(url, { withCredentials: true, headers: { 'User-Agent': 'Mozilla/5.0' } });
+
+//         const $ = cheerio.load(response.data);
+//         const token = $('input[name="_token"]').val();  // Extrae el token CSRF
+//         const cookies = response.headers['set-cookie'];  // Extrae las cookies
+
+//         console.log("Token:", token);  // Verifica si el token se obtiene correctamente
+//         console.log("Cookies:", cookies);  // Verifica las cookies
+
+//         return { token, cookies };
+//     } catch (error) {
+//         console.error("Error al obtener token y cookies:", error.message);
+//         return null;
+//     }
+// }
+
+
+
+
+
+
 async function obtenerTokenYCookies() {
     const url = "https://eldni.com/pe/buscar-datos-por-dni";
 
     try {
-        const response = await axios.get(url, { withCredentials: true, headers: { 'User-Agent': 'Mozilla/5.0' } });
+      
+        const response = await axios.get(url, { 
+            withCredentials: true,
+            headers: { 'User-Agent': 'Mozilla/5.0' }
+        });
 
-        const $ = cheerio.load(response.data);
-        const token = $('input[name="_token"]').val();  // Extrae el token CSRF
-        const cookies = response.headers['set-cookie'];  // Extrae las cookies
+       
+        const $ = cheerio.load(response.data);  // Aquí cargamos el HTML con cheerio
 
-        console.log("Token:", token);  // Verifica si el token se obtiene correctamente
-        console.log("Cookies:", cookies);  // Verifica las cookies
+
+        const token = $('input[name="_token"]').val();
+        // Extraer las cookies de los encabezados
+        const cookies = response.headers['set-cookie'];
+
+      
+        console.log("Token:", token);
+        console.log("Cookies:", cookies);
 
         return { token, cookies };
     } catch (error) {
@@ -39,6 +74,9 @@ async function obtenerTokenYCookies() {
         return null;
     }
 }
+
+
+
 
 // ============ esta función para buscar DNI ==========================
 async function buscarDNI(dni) {
