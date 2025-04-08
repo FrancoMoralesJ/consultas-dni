@@ -102,7 +102,7 @@ const instance = axios.create({
   
           return { token, cookies };
       } catch (error) {
-          console.error("Error al obtener token y cookies:", error.message);
+          console.error("Error al obtener token y cookies--- :", error.message);
           return null;
       }
   }
