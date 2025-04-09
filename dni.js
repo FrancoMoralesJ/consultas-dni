@@ -60,6 +60,6 @@ async function buscarDNI(dni) {
         return { error: "Error en la consulta del DNI." };
     }
 }
-buscarDNI("71211128");
 
-// module.exports = { buscarDNI };
+
+module.exports = { buscarDNI };
