@@ -1,167 +1,65 @@
+const puppeteer = require('puppeteer');
 
-const axios = require("axios");
-const cheerio = require("cheerio");
-
-//==========================  función para obtener token y cookies ==========================
-// async function obtenerTokenYCookies() {
-//     const url = "https://eldni.com/pe/buscar-datos-por-dni";
-
-//     try {
-//         const response = await axios.get(url, { withCredentials: true, headers: { 'User-Agent': 'Mozilla/5.0' } });
-
-//         const $ = cheerio.load(response.data);
-//         const token = $('input[name="_token"]').val();
-//         const cookies = response.headers['set-cookie'];
-
-//         return { token, cookies };
-//     } catch (error) {
-//         console.error("Error al obtener token y cookies:", error.message);
-//         return null;
-//     }
-// }
-
-// async function obtenerTokenYCookies() {
-    
-//     const url = "https://eldni.com/pe/buscar-datos-por-dni";
-
-//     try {
-//         const response = await axios.get(url, { withCredentials: true, headers: { 'User-Agent': 'Mozilla/5.0' } });
-
-//         const $ = cheerio.load(response.data);
-//         const token = $('input[name="_token"]').val();  // Extrae el token CSRF
-//         const cookies = response.headers['set-cookie'];  // Extrae las cookies
-
-//         console.log("Token:", token);  // Verifica si el token se obtiene correctamente
-//         console.log("Cookies:", cookies);  // Verifica las cookies
-
-//         return { token, cookies };
-//     } catch (error) {
-//         console.error("Error al obtener token y cookies:", error.message);
-//         return null;
-//     }
-// }
-
-
-
-
-
-
-// async function obtenerTokenYCookies() {
-//     const url = "https://eldni.com/pe/buscar-datos-por-dni";
-
-//     try {
-      
-//         const response = await axios.get(url, { 
-//             withCredentials: true,
-//             headers: { 'User-Agent': 'Mozilla/5.0' }
-//         });
-
-       
-//         const $ = cheerio.load(response.data);  // Aquí cargamos el HTML con cheerio
-
-
-//         const token = $('input[name="_token"]').val();
-//         // Extraer las cookies de los encabezados
-//         const cookies = response.headers['set-cookie'];
-
-      
-//         console.log("Token:", token);
-//         console.log("Cookies:", cookies);
-
-//         return { token, cookies };
-//     } catch (error) {
-//         console.error("Error al obtener token y cookies:", error.message);
-//         return null;
-//     }
-// }
-
-const instance = axios.create({
-    withCredentials: true, 
-    headers: { 'User-Agent': 'Mozilla/5.0' },
-  });
-  
-  async function obtenerTokenYCookies() {
-      const url = "https://eldni.com/pe/buscar-datos-por-dni";
-  
-      try {
-          const response = await instance.get(url);
-  
-          const $ = cheerio.load(response.data);
-  
-          const token = $('input[name="_token"]').val();
-  
-          if (!token) {
-              throw new Error("No se pudo obtener el token.");
-          }
-  
-          const cookies = response.headers['set-cookie'];
-  
-          // Verificar valores
-          console.log("Token:", token);
-          console.log("Cookies:", cookies);
-  
-          return { token, cookies };
-      } catch (error) {
-          console.error("Error al obtener token y cookies--- :", error.message);
-          return null;
-      }
-  }
-  
-
-
-
-// ============ esta función para buscar DNI ==========================
 async function buscarDNI(dni) {
+   
     if (!/^\d{8}$/.test(dni)) {
         return { error: "DNI inválido. Debe contener exactamente 8 dígitos numéricos." };
     }
 
     const url = "https://eldni.com/pe/buscar-datos-por-dni";
-    const datos = await obtenerTokenYCookies();
-
-    if (!datos) {
-        return { error: "No se pudo obtener el token." };
-    }
-
-    const { token, cookies } = datos;
-
-    const headers = {
-        'User-Agent': 'Mozilla/5.0',
-        'X-CSRF-TOKEN': token,
-        'Cookie': cookies.join('; '),
-        'Content-Type': 'application/x-www-form-urlencoded'
-    };
-
-    const postData = `dni=${dni}&_token=${token}`;
 
     try {
-        const response = await axios.post(url, postData, { headers });
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'] // importante para Render
+        });
 
-        const $ = cheerio.load(response.data);
+        const page = await browser.newPage();
+        await page.setUserAgent("Mozilla/5.0");
 
-        if ($('tbody tr td:nth-child(1)').text().trim() != "" ||
-            ($('tbody tr td:nth-child(2)').text().trim() != "" ||
-                $('tbody tr td:nth-child(3)').text().trim() != "" ||
-                $('tbody tr td:nth-child(4)').text().trim() != "")
-        ) {
-            return {
-                dni: $('tbody tr td:nth-child(1)').text().trim(),
-                nombres: $('tbody tr td:nth-child(2)').text().trim(),
-                apellidoPaterno: $('tbody tr td:nth-child(3)').text().trim(),
-                apellidoMaterno: $('tbody tr td:nth-child(4)').text().trim()
-            };
+        // Ir a la página
+        await page.goto(url, { waitUntil: 'networkidle2' });
 
+        // Escribir el DNI en el input
+        await page.type('input[name="dni"]', dni);
+
+        // Hacer clic en el botón de búsqueda
+        await Promise.all([
+            page.click('button[type="submit"]'),
+            page.waitForNavigation({ waitUntil: 'networkidle2' })
+        ]);
+
+        // Evaluar y extraer datos del resultado
+        const resultado = await page.evaluate(() => {
+            const celdas = document.querySelectorAll("tbody tr td");
+            if (celdas.length >= 4) {
+                return {
+                    dni: celdas[0].innerText.trim(),
+                    nombres: celdas[1].innerText.trim(),
+                    apellidoPaterno: celdas[2].innerText.trim(),
+                    apellidoMaterno: celdas[3].innerText.trim()
+                };
+            } else {
+                return null;
+            }
+        });
+
+        await browser.close();
+
+        console.log(resultado);
+        
+        if (resultado) {
+            return resultado;
         } else {
-            return false;
+            return { error: "No se encontraron datos para el DNI ingresado." };
         }
 
 
-
-
     } catch (error) {
-        console.error("Error en la búsqueda del DNI:", error.message);
-        return { error: "Error en la consulta del DNI" };
+        console.error("Error al buscar DNI con Puppeteer:", error.message);
+        return { error: "Error en la consulta del DNI." };
     }
 }
+buscarDNI("71211128");
 
-exports.buscarDNI= buscarDNI;
+// module.exports = { buscarDNI };
