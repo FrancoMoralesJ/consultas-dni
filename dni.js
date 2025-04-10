@@ -10,8 +10,7 @@ async function buscarDNI(dni) {
 
     try {
         const browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] // importante para Render
+            headless: true, executablePath: '/usr/bin/google-chrome',   args: ['--no-sandbox', '--disable-setuid-sandbox'] 
         });
 
         const page = await browser.newPage();
