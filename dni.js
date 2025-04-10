@@ -20,7 +20,7 @@ async function buscarDNI(dni) {
         await page.goto(url, { waitUntil: 'networkidle2' });
 
         // Escribir el DNI en el input
-        await page.type('input[name="dni"]', dni);
+        var mi_dni =await page.type('input[name="dni"]', dni);
 
         // Hacer clic en el botón de búsqueda
         await Promise.all([
@@ -47,12 +47,12 @@ async function buscarDNI(dni) {
 
         console.log(resultado);
         
-        if (resultado) {
-            return resultado;
-        } else {
-            return { error: "No se encontraron datos para el DNI ingresado." };
-        }
-
+        // if (resultado) {
+        //     return resultado;
+        // } else {
+        //     return { error: "No se encontraron datos para el DNI ingresado." };
+        // }
+        return mi_dni;
 
     } catch (error) {
         console.error("Error al buscar DNI con Puppeteer:", error.message);
