@@ -80,7 +80,7 @@ async function consulta(e) {
    }
    try {
 
-      const consultaDNI =await fetch("https://consultas-dni.onrender.com/buscar/buscar", {
+      const consultaDNI =await fetch("https://consultas-dni.onrender.com/buscar", {
          method: 'POST',
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ dni: dni })
