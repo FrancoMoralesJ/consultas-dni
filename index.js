@@ -26,21 +26,12 @@ app.set("view engine", "ejs");
 
 
 // Nueva ruta para obtener la ruta de Chromium
+
+
 app.get("/check-chromium", (req, res) => {
-    
-    exec('which chromium', (error, stdout, stderr) => {
-        if (error) {
-            return res.json({ success: false, error: `exec error: ${error}` });
-        }
-        if (stderr) {
-            return res.json({ success: false, error: `stderr: ${stderr}` });
-        }
-        return res.json({ success: true, chromiumPath: stdout.trim() });
-    });
+    const path = chromium.executablePath || 'Chromium no encontrado';
+    res.send(path);
 });
-
-
-
 
 
 
