@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 require('dotenv').config();
 
 async function buscarDNI(dni) {
-   
+    console.log("Ruta de Chrome:", process.env.PUPPETEER_EXECUTABLE_PATH);
     if (!/^\d{8}$/.test(dni)) {
         return { error: "DNI inválido. Debe contener exactamente 8 dígitos numéricos." };
     }
@@ -18,9 +18,7 @@ async function buscarDNI(dni) {
                 "--disable-setuid-sandbox",
                 "--no-sandbox"
               ],
-              executablePath:   process.env.NODE_ENV === "produccion"
-              ? process.env.PUPPETEER_EXECUTABLE_PATH
-              : puppeteer.executablePath(),
+              executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
              
         });
 
