@@ -10,6 +10,11 @@ async function buscarDNI(dni) {
     const url = "https://eldni.com/pe/buscar-datos-por-dni";
 
     try {
+
+        
+const rutaChrome =
+process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'; 
+
         const browser = await puppeteer.launch({
             // headless: true, executablePath: '/usr/bin/google-chrome',   args: ['--no-sandbox', '--disable-setuid-sandbox'] 
             headless: true, 
@@ -18,7 +23,7 @@ async function buscarDNI(dni) {
                 "--disable-setuid-sandbox",
                 "--no-sandbox"
               ],
-              executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
+              executablePath: rutaChrome
              
         });
 

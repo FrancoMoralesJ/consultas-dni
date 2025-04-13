@@ -3,7 +3,7 @@
 // Para reniec 
 const express = require("express");
 const cors = require("cors");
-
+const { exec } = require('child_process'); // <-- ESTA LÍNEA AGREGA
 var reniec= require('./dni.js');
 
 // =====================================================
@@ -23,6 +23,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+
+
+// Nueva ruta para obtener la ruta de Chromium
+app.get("/check-chromium", (req, res) => {
+    
+    exec('which chromium', (error, stdout, stderr) => {
+        if (error) {
+            return res.json({ success: false, error: `exec error: ${error}` });
+        }
+        if (stderr) {
+            return res.json({ success: false, error: `stderr: ${stderr}` });
+        }
+        return res.json({ success: true, chromiumPath: stdout.trim() });
+    });
+});
+
+
+
+
 
 
 
