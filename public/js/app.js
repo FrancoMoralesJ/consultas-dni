@@ -79,8 +79,9 @@ async function consulta(e) {
       return;
    }
    try {
+      // https://consultas-dni.onrender.com
 
-      const consultaDNI =await fetch("https://consultas-dni.onrender.com/buscar", {
+      const consultaDNI =await fetch("/buscar", {
          method: 'POST',
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ dni: dni })
@@ -96,25 +97,27 @@ async function consulta(e) {
       
       // const dataOsiptel = await respuestaTel.json();
       
-      // ========================== dni ============================
-      if (dataDNI.success) {
-           addComponent("tbDNI", "");
-         let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
+      // // ========================== dni ============================
+      // if (dataDNI.success) {
+      //      addComponent("tbDNI", "");
 
-         addComponent("tbDNI", tblDNI);
-      } else {
 
-         let contentError = addError(dataDNI.data);
+      //      let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
 
-         addComponent("tbDNI", contentError);
+      //    addComponent("tbDNI", tblDNI);
+      // } else {
 
-         setTimeout(() => {
-            addComponent("tbDNI", "");
+      //    let contentError = addError(dataDNI.data);
+
+      //    addComponent("tbDNI", contentError);
+
+      //    setTimeout(() => {
+      //       addComponent("tbDNI", "");
             
-         }, 3000);
+      //    }, 3000);
        
 
-      }
+      // }
 
       // ========================== tel ============================
             
