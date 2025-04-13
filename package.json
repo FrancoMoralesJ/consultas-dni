@@ -4,6 +4,7 @@
   "main": "dni.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx puppeteer browsers install chrome",
     "start": "node index.js"
   },
   "keywords": [],
@@ -19,3 +20,4 @@
     "puppeteer": "^24.6.0"
   }
 }
+
