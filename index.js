@@ -43,20 +43,19 @@ app.post("/buscar", async (req, res) => {
     const dni = req.body.dni.trim();
     if (req.method !== 'POST') {
         return res.status(405).json({ success: false, data: 'Método no permitido' });
-      }
-    
+    }
+
     if (!/^\d{8}$/.test(dni)) {
         return res.json({ success: false, data: 'El DNI debe contener exactamente 8 dígitos numéricos.' });
     }
     try {
         const resultadoDNI = await reniec.buscarDNI(dni);
-        if (resultadoDNI) 
-            {
-                console.log(resultadoDNI);
-                
+        if (resultadoDNI) {
+            console.log(resultadoDNI);
+
             res.json({ success: true, data: resultadoDNI });
         } else {
-          res.json({ success: false, data: "El DNI ingresado no existe" });
+            res.json({ success: false, data: "El DNI ingresado no existe" });
 
         }
     } catch (error) {

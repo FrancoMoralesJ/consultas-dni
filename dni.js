@@ -6,29 +6,31 @@ async function buscarDNI(dni) {
     }
 
     const url = "https://eldni.com/pe/buscar-datos-por-dni";
-    const browser = await puppeteer.launch({
-        args: [
-            "--disable-setuid-sandbox",
-            "--no-sandbox",
-            "--single-process",
-            "--no-zygote",
-        ],
-        executablePath:
-            process.env.NODE_ENV === "production"
-                ? process.env.PUPPETEER_EXECUTABLE_PATH
-                : puppeteer.executablePath(),
-    });
+    
 
     try {
+        const browser = await puppeteer.launch({
+          
+            args: [
+                "--disable-setuid-sandbox",
+                "--no-sandbox",
+                "--single-process",
+                "--no-zygote",
+            ],
+            executablePath:
+                process.env.NODE_ENV === "production"
+                    ? process.env.PUPPETEER_EXECUTABLE_PATH
+                    : puppeteer.executablePath(),
+        });
         const page = await browser.newPage();
         await page.setUserAgent("Mozilla/5.0");
         await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     
-        await page.waitForSelector('input[name="dni"]');
+        await page.waitForSelector("#dni");
         await page.waitForSelector('button[type="submit"]');
 
-        await page.type('input[name="dni"]', dni);
+        await page.type('#dni', dni);
 
         
         await Promise.all([
@@ -51,6 +53,7 @@ async function buscarDNI(dni) {
             }
         });
         console.log(resultado);
+        await browser.close();
         
         if (resultado) {
             return resultado;
@@ -60,11 +63,10 @@ async function buscarDNI(dni) {
     } catch (error) {
         console.error("Error al buscar DNI con Puppeteer:", error.message);
         return { error: "Error en la consulta del DNI..." };
-    } finally {
-        await browser.close();
-    }
+    } 
 }
-
  module.exports = { buscarDNI };
+
+// buscarDNI("71211128");
 
 
