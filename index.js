@@ -3,8 +3,7 @@
 // Para reniec 
 const express = require("express");
 const cors = require("cors");
-var reniec= require('./dni.js');
-
+var reniec = require('./dni.js');
 // =====================================================
 
 // =====================================================

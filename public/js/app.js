@@ -79,7 +79,7 @@ async function consulta(e) {
       return;
    }
    try {
-      // https://consultas-dni.onrender.com
+   
 
       const consultaDNI =await fetch("/buscar", {
          method: 'POST',
