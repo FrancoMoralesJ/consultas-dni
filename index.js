@@ -22,6 +22,20 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 
+<<<<<<< HEAD
+=======
+// Nueva ruta para obtener la ruta de Chromium
+
+
+app.get("/check-chromium", (req, res) => {
+    const path = chromium.executablePath || 'Chromium no encontrado';
+    res.send(path);
+});
+
+
+
+
+>>>>>>> 1c4c6389a02c5346a9815790b14b25f937de5c39
 // Rutas
 app.get("/", (req, res) => {
     res.render("index");

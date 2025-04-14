@@ -75,6 +75,7 @@ async function buscarDNI(dni) {
     }
 }
 
+<<<<<<< HEAD
 
 
 
@@ -82,3 +83,8 @@ async function buscarDNI(dni) {
 module.exports = { buscarDNI };
 
 
+=======
+ module.exports = { buscarDNI };
+
+//buscarDNI("71211128");
+>>>>>>> 1c4c6389a02c5346a9815790b14b25f937de5c39
