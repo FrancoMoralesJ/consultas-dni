@@ -25,17 +25,11 @@ async function buscarDNI(dni) {
 
     try {
 
-
         const page = await browser.newPage();
         await page.setUserAgent("Mozilla/5.0");
-
-    
         await page.goto(url, { waitUntil: 'networkidle2' });
-
-  
         await page.type('input[name="dni"]', dni);
-        var titulo = await page.title();
-        
+   
         await Promise.all([
             page.click('button[type="submit"]'),
             page.waitForNavigation({ waitUntil: 'networkidle2' })
@@ -56,9 +50,6 @@ async function buscarDNI(dni) {
             }
         });
 
-      
-
-       
 
         if (resultado) {
             return resultado;
@@ -75,16 +66,13 @@ async function buscarDNI(dni) {
     }
 }
 
-<<<<<<< HEAD
-
 
 
 
 module.exports = { buscarDNI };
 
 
-=======
+
  module.exports = { buscarDNI };
 
-//buscarDNI("71211128");
->>>>>>> 1c4c6389a02c5346a9815790b14b25f937de5c39
+
