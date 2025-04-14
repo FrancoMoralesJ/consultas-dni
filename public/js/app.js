@@ -95,51 +95,32 @@ async function consulta(e) {
       const dataDNI = await consultaDNI.json();
       console.log(dataDNI);
       
-      // const dataOsiptel = await respuestaTel.json();
       
-      // // ========================== dni ============================
-      // if (dataDNI.success) {
-      //      addComponent("tbDNI", "");
+      
+      // ========================== dni ============================
+      if (dataDNI.success) {
+           addComponent("tbDNI", "");
 
 
-      //      let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
+           let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
 
-      //    addComponent("tbDNI", tblDNI);
-      // } else {
+         addComponent("tbDNI", tblDNI);
+      } else {
 
-      //    let contentError = addError(dataDNI.data);
+         let contentError = addError(dataDNI.data);
 
-      //    addComponent("tbDNI", contentError);
+         addComponent("tbDNI", contentError);
 
-      //    setTimeout(() => {
-      //       addComponent("tbDNI", "");
+         setTimeout(() => {
+            addComponent("tbDNI", "");
             
-      //    }, 3000);
+         }, 3000);
        
 
-      // }
+      }
 
       // ========================== tel ============================
-            
-            // console.log(dataOsiptel);
-            
-      // if (resDNI.telefono) {
-
-      //    const telContent=document.getElementById("telContent");
-      //    telContent.style.display="initial !important";
-      //    addComponent("tbOSIPTEL", addNEWTBLTELEFONO());
-      //    document.getElementById("titleTel").textContent=" Resultados de la búsqueda: "+resDNI.data.dni;
-      //    let trTel = ` `;
-      //    resDNI.dataTel.forEach(datTel => {
-      //       trTel +=  addDataTel(datTel.modalidad, datTel.numeroTelefonico, datTel.empresaOperadora);
-
-      //    });
-      //    addComponent("contentTel", trTel);
-      // }else{
-      //    telContent.style.display="none !important";
-      //    document.getElementById("titleTel").textContent=" Resultados de la búsqueda: ";
-      //    addComponent("contentTel", "");
-      // }
+     
 
    } catch (error) {
 
