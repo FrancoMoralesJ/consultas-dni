@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');  // Usar puppeteer-extra
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+puppeteer.use(StealthPlugin()); 
 
 async function buscarDNI(dni) {
     if (!/^\d{8}$/.test(dni)) {
