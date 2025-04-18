@@ -97,27 +97,27 @@ async function consulta(e) {
       
       
       
-      // ========================== dni ============================
-      if (dataDNI.success) {
-           addComponent("tbDNI", "");
+      // // ========================== dni ============================
+      // if (dataDNI.success) {
+      //      addComponent("tbDNI", "");
 
 
-           let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
+      //      let tblDNI = addTBLDNI(dataDNI.data.dni, dataDNI.data.nombres, dataDNI.data.apellidoPaterno, dataDNI.data.apellidoMaterno);
 
-         addComponent("tbDNI", tblDNI);
-      } else {
+      //    addComponent("tbDNI", tblDNI);
+      // } else {
 
-         let contentError = addError(dataDNI.data);
+      //    let contentError = addError(dataDNI.data);
 
-         addComponent("tbDNI", contentError);
+      //    addComponent("tbDNI", contentError);
 
-         setTimeout(() => {
-            addComponent("tbDNI", "");
+      //    setTimeout(() => {
+      //       addComponent("tbDNI", "");
             
-         }, 3000);
+      //    }, 3000);
        
 
-      }
+      // }
 
       // ========================== tel ============================
      

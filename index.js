@@ -50,14 +50,16 @@ app.post("/buscar", async (req, res) => {
     }
     try {
         const resultadoDNI = await reniec.buscarDNI(dni);
-        if (resultadoDNI) {
-            console.log(resultadoDNI);
 
-            res.json({ success: true, data: resultadoDNI });
-        } else {
-            res.json({ success: false, data: "El DNI ingresado no existe" });
+        res.json({ success: true, data: resultadoDNI });
+        // if (resultadoDNI) {
+        //     console.log(resultadoDNI);
 
-        }
+        //     res.json({ success: true, data: resultadoDNI });
+        // } else {
+        //     res.json({ success: false, data: "El DNI ingresado no existe" });
+
+        // }
     } catch (error) {
         res.json({ success: false, data: "Error al obtener los datos..!!", error: error.message });
     }
