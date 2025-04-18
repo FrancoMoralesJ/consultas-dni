@@ -26,40 +26,42 @@ async function buscarDNI(dni) {
         await page.setUserAgent("Mozilla/5.0");
         await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    
-        await page.waitForSelector("#dni");
-        await page.waitForSelector('button[type="submit"]');
+        const titulo= await page.title();
 
-        await page.type('#dni', dni);
+        // await page.waitForSelector("#dni");
+        // await page.waitForSelector('button[type="submit"]');
+
+        // await page.type('#dni', dni);
 
         
-        await Promise.all([
-            page.click('button[type="submit"]'),
-            page.waitForSelector('tbody tr td', { timeout: 5000 }), // Esperar a que se cargue la tabla
-        ]);
+        // await Promise.all([
+        //     page.click('button[type="submit"]'),
+        //     page.waitForSelector('tbody tr td', { timeout: 5000 }), // Esperar a que se cargue la tabla
+        // ]);
 
        
-        const resultado = await page.evaluate(() => {
-            const celdas = document.querySelectorAll("tbody tr td");
-            if (celdas.length >= 4) {
-                return {
-                    dni: celdas[0].innerText.trim(),
-                    nombres: celdas[1].innerText.trim(),
-                    apellidoPaterno: celdas[2].innerText.trim(),
-                    apellidoMaterno: celdas[3].innerText.trim(),
-                };
-            } else {
-                return null;
-            }
-        });
-        console.log(resultado);
+        // const resultado = await page.evaluate(() => {
+        //     const celdas = document.querySelectorAll("tbody tr td");
+        //     if (celdas.length >= 4) {
+        //         return {
+        //             dni: celdas[0].innerText.trim(),
+        //             nombres: celdas[1].innerText.trim(),
+        //             apellidoPaterno: celdas[2].innerText.trim(),
+        //             apellidoMaterno: celdas[3].innerText.trim(),
+        //         };
+        //     } else {
+        //         return null;
+        //     }
+        // });
+
+        console.log(titulo);
         await browser.close();
-        
-        if (resultado) {
-            return resultado;
-        } else {
-            return { error: "No se encontraron datos para el DNI ingresado." };
-        }
+        return titulo;
+        // if (resultado) {
+        //     return resultado;
+        // } else {
+        //     return { error: "No se encontraron datos para el DNI ingresado." };
+        // }
     } catch (error) {
         console.error("Error al buscar DNI con Puppeteer:", error.message);
         return { error: "Error en la consulta del DNI..." };
